@@ -678,6 +678,13 @@
 }
 /* black overlay */
 
+.overflow-x-hidden{
+    overflow-x: hidden;
+}
+.w-85{
+    width: 85%;
+}
+
 [data-overlay] {
 	position: relative;
 }

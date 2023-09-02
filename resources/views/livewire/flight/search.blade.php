@@ -7,7 +7,7 @@
                     <div class="booking-wrap">
                         <ul class="nav nav-tabs flex-column" id="myTab" role="tablist">
                             <li class="nav-item w-100" role="presentation">
-                                <button class="nav-link active rounded-3 bg-622243 text-white" id="bOOKing-tab"
+                                <button class="text-white nav-link active rounded-3 bg-622243" id="bOOKing-tab"
                                     data-bs-toggle="tab" data-bs-target="#bOOKing-tab-pane" type="button"
                                     role="tab" aria-controls="bOOKing-tab-pane" aria-selected="true"><i
                                         class="flaticon-flight"></i>air
@@ -30,13 +30,39 @@
                                             <form action="#" class="booking-form">
                                                 <ul>
                                                     <li>
-                                                        <div class="form-grp">
-                                                            <input type="text" placeholder="From">
+                                                        <div class="form-grp position-relative ">
+                                                            <input type="text" placeholder="From"
+                                                                wire:model.live='from'>
+                                                            <div class="position-absolute top-10">
+                                                                <ul class="d-grid">
+                                                                    @foreach ($from_city_list as $list)
+                                                                        <li
+                                                                            class="py-1 pl-20 bg-white hover-text-gray-900">
+                                                                            <a href="javascript:"
+                                                                                wire:click="setFrom({{ $list->id }},'{{ $list->name }}')"
+                                                                                class="cursor-pointer">{{ $list->name }}</a>
+                                                                        </li>
+                                                                    @endforeach
+
+                                                                </ul>
+                                                            </div>
                                                         </div>
                                                     </li>
                                                     <li>
-                                                        <div class="form-grp">
-                                                            <input type="text" placeholder="To">
+                                                        <div class="form-grp position-relative">
+                                                            <input type="text" placeholder="To" wire:model.live='to'>
+                                                            <div class="position-absolute top-10">
+                                                                <ul class="d-grid">
+                                                                    @foreach ($to_city_list as $list)
+                                                                        <li
+                                                                            class="py-1 pl-40 bg-white hover-text-gray-900 ">
+                                                                            <a href="javascript:"
+                                                                                wire:click="setTo({{ $list->id }},'{{ $list->name }}')"
+                                                                                class="cursor-pointer">{{ $list->name }}</a>
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            </div>
                                                             <button class="exchange-icon"><i
                                                                     class="flaticon-exchange-1"></i></button>
                                                         </div>
@@ -117,7 +143,8 @@
                                                     <li>
                                                         <div class="form-grp select">
                                                             <label for="shortByTwo">Trip</label>
-                                                            <select id="shortByTwo" name="select" class="form-select"
+                                                            <select id="shortByTwo" name="select"
+                                                                class="form-select"
                                                                 aria-label="Default select example">
                                                                 <option value="">Tour type</option>
                                                                 <option>Adventure Travel</option>

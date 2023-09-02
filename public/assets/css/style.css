@@ -4360,7 +4360,10 @@ label {
 
 .text-ffa903 {
     color: #ffa903 !important;
+}
 
+.hover-text-gray-900:hover{
+    color: #111827;
 }
 
 @-webkit-keyframes loader-outter {
