@@ -15,6 +15,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Coolsam\FilamentFlatpickr\Forms\Components\Flatpickr;
 
 class FlightResource extends Resource
 {
@@ -34,8 +35,10 @@ class FlightResource extends Resource
                                 ->autofocus()
                                 ->required()
                                 ->unique(Flight::class, 'flight_number')
-                                ->placeholder(__('Flight Number'))
-                                ->columnSpanFull(),
+                                ->placeholder(__('Flight Number')),
+                            Forms\Components\Select::make('flight_type')
+                                ->options(config('flight_type'))
+                                ->required(),
                             Forms\Components\TextInput::make('total_seats')
                                 ->required()
                                 ->numeric()
@@ -50,24 +53,29 @@ class FlightResource extends Resource
                     Forms\Components\Section::make(__('Places and Times'))
                         ->schema([
                             Forms\Components\Select::make('origin_id')
+                                ->label('Origin')
                                 ->required()
                                 ->searchable()
-                                ->getSearchResultsUsing(fn(string $search): array => Airport::where('name', 'like', "%{$search}%")->orWhereHas('city', function ($q) use ($search) {
+                                ->getSearchResultsUsing(fn (string $search): array => Airport::where('name', 'like', "%{$search}%")->orWhereHas('city', function ($q) use ($search) {
                                     return $q->where('name', 'like', "%{$search}%");
                                 })->limit(50)->pluck('name', 'id')->toArray())
                                 ->placeholder(__('Origin')),
                             Forms\Components\Select::make('destination_id')
+                                ->label('Destination')
                                 ->required()
                                 ->searchable()
-                                ->getSearchResultsUsing(fn(string $search): array => Airport::where('name', 'like', "%{$search}%")->orWhereHas('city', function ($q) use ($search) {
+                                ->getSearchResultsUsing(fn (string $search): array => Airport::where('name', 'like', "%{$search}%")->orWhereHas('city', function ($q) use ($search) {
                                     return $q->where('name', 'like', "%{$search}%");
                                 })->limit(50)->pluck('name', 'id')->toArray())
                                 ->placeholder(__('Destination')),
-                            Forms\Components\DateTimePicker::make('departure_time')
+                            Flatpickr::make('departure_time')
                                 ->required()
+                                ->enableTime()
+                                ->dateFormat('d-m-y H:i:S')
                                 ->placeholder(__('Departure Time')),
-                            Forms\Components\DateTimePicker::make('arrival_time')
+                            Flatpickr::make('arrival_time')
                                 ->required()
+                                ->enableTime()
                                 ->placeholder(__('Arrival Time')),
                         ])->columns(2),
                 ])->columnSpan(['lg' => 2]),
@@ -84,7 +92,7 @@ class FlightResource extends Resource
                                 ->label(__('Select Plane'))
                                 ->required()
                                 ->searchable()
-                                ->options(fn(callable $get) => Plane::where('airline_id', $get('airline_id'))->pluck('name', 'id')->toArray())
+                                ->options(fn (callable $get) => Plane::where('airline_id', $get('airline_id'))->pluck('name', 'id')->toArray())
                                 ->live(onBlur: true)
                                 ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
                                     if ($operation !== 'create') {
@@ -106,6 +114,9 @@ class FlightResource extends Resource
                 Tables\Columns\TextColumn::make('flight_number')
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('flight_type')
+                    ->getStateUsing(fn ($record): ?string => config('flight_type.' . $record->flight_type) ?? null),
+
                 Tables\Columns\TextColumn::make('origin.name', __('Origin'))
                     ->sortable()
                     ->limit(30)

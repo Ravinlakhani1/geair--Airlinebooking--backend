@@ -6,6 +6,7 @@ use App\Models\Airline;
 use App\Models\Plane;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class AirlineSeeder extends Seeder
 {
@@ -18,22 +19,22 @@ class AirlineSeeder extends Seeder
             [
                 'name' => 'Air India',
                 'code' => 'AI',
-                'logo' => 'air-india.png'
+                'logo' => 'airlines/air-india.png'
             ],
             [
                 'name' => 'Indigo',
                 'code' => '6E',
-                'logo' => 'indigo.png'
+                'logo' => 'airlines/indigo.png'
             ],
             [
                 'name' => 'SpiceJet',
                 'code' => 'SG',
-                'logo' => 'spicejet.png'
+                'logo' => 'airlines/spicejet.png'
             ],
             [
                 'name' => 'Vistara',
                 'code' => 'UK',
-                'logo' => 'vistara.png'
+                'logo' => 'airlines/vistara.png'
             ]
         ];
 
@@ -414,5 +415,93 @@ class AirlineSeeder extends Seeder
             Plane::create($plane);
         }
 
+
+        DB::table('airports')->insert([
+            [
+                'id' => 1,
+                'name' => 'Indira Gandhi International Airport',
+                'code' => 'DEL',
+                'city_id' => 133210,
+                'deleted_at' => null,
+                'created_at' => '2023-09-03 00:04:15',
+                'updated_at' => '2023-09-03 00:05:29',
+            ],
+            [
+                'id' => 2,
+                'name' => 'Chhatrapati Shivaji International Airport',
+                'code' => 'BOM',
+                'city_id' => 133024,
+                'deleted_at' => null,
+                'created_at' => '2023-09-03 00:04:45',
+                'updated_at' => '2023-09-03 00:04:45',
+            ],
+            [
+                'id' => 3,
+                'name' => 'Chennai International Airport',
+                'code' => 'MAA',
+                'city_id' => 131517,
+                'deleted_at' => null,
+                'created_at' => '2023-09-03 00:05:15',
+                'updated_at' => '2023-09-03 00:05:15',
+            ],
+            [
+                'id' => 4,
+                'name' => 'Kempegowda International Airport',
+                'code' => 'BLR',
+                'city_id' => 57847,
+                'deleted_at' => null,
+                'created_at' => '2023-09-03 00:18:03',
+                'updated_at' => '2023-09-03 00:18:03',
+            ],
+            [
+                'id' => 5,
+                'name' => 'Sardar Vallabhbhai Patel International Airport',
+                'code' => 'AMD',
+                'city_id' => 57606,
+                'deleted_at' => null,
+                'created_at' => '2023-09-03 00:18:33',
+                'updated_at' => '2023-09-03 00:18:33',
+            ],
+        ]);
+
+        // Insert data into the 'flights' table
+        DB::table('flights')->insert([
+            [
+                'id' => 1,
+                'flight_number' => 'F1AMDBOMECO',
+                'flight_type'=> config('flight_type.economy'),
+                'airline_id' => 1,
+                'plane_id' => 3,
+                'origin_id' => 5,
+                'destination_id' => 2,
+                'departure_time' => '2023-09-05 12:15:00',
+                'arrival_time' => '2023-09-05 13:30:00',
+                'available_seats' => 220,
+                'total_seats' => 220,
+                'price' => 3000.00,
+                'status' => 'Scheduled',
+                'deleted_at' => null,
+                'created_at' => '2023-09-03 00:21:46',
+                'updated_at' => '2023-09-03 00:21:46',
+            ],
+            [
+                'id' => 2,
+                'flight_number' => 'F2DLHBLRBUS',
+                'flight_type'=> config('flight_type.business_class'),
+                'airline_id' => 4,
+                'plane_id' => 59,
+                'origin_id' => 1,
+                'destination_id' => 4,
+                'departure_time' => '2023-09-23 13:00:00',
+                'arrival_time' => '2023-09-04 15:00:00',
+                'available_seats' => 126,
+                'total_seats' => 126,
+                'price' => 8000.00,
+                'status' => 'Scheduled',
+                'deleted_at' => null,
+                'created_at' => '2023-09-03 00:33:06',
+                'updated_at' => '2023-09-03 00:33:06',
+            ],
+        ]);
     }
 }

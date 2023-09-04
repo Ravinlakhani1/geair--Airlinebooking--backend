@@ -10,7 +10,7 @@
     <div class="booking-list-area">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-27 order-2 order-xl-0">
+                <div class="order-2 col-27 order-xl-0">
                     <livewire:flight.filters />
                 </div>
                 <div class="col-73">

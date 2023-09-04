@@ -31,12 +31,14 @@ class AirportResource extends Resource
 
                 Forms\Components\TextInput::make('code')
                     ->required()
-                    ->unique(Airport::class, 'code')
+                    ->unique(column: 'code', ignoreRecord: true)
                     ->maxLength(5)
                     ->minLength(2)
                     ->placeholder(__('Code')),
 
                 Forms\Components\Select::make('city_id')
+                    ->label('City')
+                    ->relationship(name: 'city', titleAttribute: 'name')
                     ->getSearchResultsUsing(fn (string $search): array => City::where('name', 'like', "%{$search}%")->limit(50)->pluck('name', 'id')->toArray())
                     ->searchable()
                     ->columnSpanFull()

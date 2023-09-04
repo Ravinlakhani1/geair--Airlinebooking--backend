@@ -1,50 +1,60 @@
-<div class="booking-list-item">
-    <div class="booking-list-item-inner">
-        <div class="booking-list-top">
-            <div class="flight-airway">
-                <div class="flight-logo">
-                    <img src="assets/img/icon/booking_icon01.jpg" alt="">
-                    <h5 class="title">Etihad Airway</h5>
+<div>
+
+    @foreach ($flights as $flight)
+    <div class="booking-list-item">
+
+        <div class="booking-list-item-inner">
+            <div class="booking-list-top">
+                <div class="flight-airway">
+                    <div class="flight-logo">
+                        <img src="{{ $flight->airline->logo }}" width="66px" alt="">
+                        <h5 class="title">{{ $flight->airline->name }}</h5>
+                    </div>
+                    {{-- <span>Operated by Emirates</span> --}}
                 </div>
-                <span>Operated by Emirates</span>
+                <ul class="flight-info">
+                    <li>{{ date('l', strtotime($flight->departure_time)) }}, <span>{{ date('M
+                            d',strtotime($flight->departure_time)) }}</span></li>
+                    <li class="time"><span>{{ date('G:i', strtotime($flight->departure_time))}}</span>DAC</li>
+                    <li> {{ $this->timeDifference($flight->departure_time,$flight->arrival_time) }}</li>
+                </ul>
+                <div class="flight-price">
+                    <h4 class="title">₹&nbsp;{{ number_format($flight->price) }}</h4>
+                    <a href="booking-details.html" class="btn">Select <i class="flaticon-flight-1"></i></a>
+                </div>
             </div>
-            <ul class="flight-info">
-                <li>Thursday, <span>Jun 16</span></li>
-                <li class="time"><span>12: 55</span>DAC</li>
-                <li>22h<span>2 Stops</span></li>
-            </ul>
-            <div class="flight-price">
-                <h4 class="title">US$ 1,056.40</h4>
-                <a href="booking-details.html" class="btn">Select <i class="flaticon-flight-1"></i></a>
-            </div>
-        </div>
-        <div class="booking-list-bottom">
-            <ul>
-                <li class="detail"><i class="fa-solid fa-angle-down"></i> Flight Detail</li>
-                <li>Price per person (incl. taxes & fees)</li>
-            </ul>
-        </div>
-    </div>
-    <div class="flight-detail-wrap">
-        <div class="flight-date">
-            <ul>
-                <li>Thursday, Jun 16</li>
-                <li>Thursday, Jun 16 - 23:20 <span>22h 50m</span></li>
-                <li>Friday, Jun 17 - 03:20</li>
-            </ul>
-        </div>
-        <div class="flight-detail-right">
-            <h4 class="title">IST - Istanbul Airport, Turkish</h4>
-            <div class="flight-detail-info">
-                <img src="assets/img/icon/booking_icon01.jpg" alt="">
+            <div class="booking-list-bottom">
                 <ul>
-                    <li>Tpm Line</li>
-                    <li>Operated by Airlines</li>
-                    <li>Economy | Flight EK585 | Aircraft BOEING 777-300ER</li>
-                    <li>Adult(s): 25KG luggage free</li>
+                    <li class="detail"><i class="fa-solid fa-angle-down"></i> Flight Detail</li>
+                    <li>Price per person (incl. taxes & fees)</li>
                 </ul>
             </div>
-            <h4 class="title title-two">DXB - Dubai, United Arab Emirates</h4>
+        </div>
+        <div class="flight-detail-wrap">
+            <div class="flight-date">
+                <ul>
+                    <li>{{ date('l, M d', strtotime($flight->departure_time)) }}</li>
+                    <li> {{ date('l, M d - G:i', strtotime($flight->departure_time)) }} <span>
+                            {{ $this->timeDifference($flight->departure_time,$flight->arrival_time) }}
+                        </span></li>
+                    <li>{{ date('l, M d - G:i', strtotime($flight->arrival_time)) }}</li>
+
+                </ul>
+            </div>
+            <div class="flight-detail-right">
+                <h4 class="title">{{ $flight->origin->code }} - {{ $flight->origin->name }}, {{ $flight->origin->city->name }}</h4>
+                <div class="flight-detail-info">
+                    <img src="{{ $flight->airline->logo }}" alt="" width="66px">
+                    <ul>
+                        {{-- <li>Tpm Line</li> --}}
+                        <li>Operated by {{ $flight->airline->name }}</li>
+                        <li>{{ $flight->flight_type }} | Flight {{ $flight->flight_number }} | {{ $flight->plane->name }}</li>
+                        <li>Adult(s): 25KG luggage free</li>
+                    </ul>
+                </div>
+                <h4 class="title title-two">{{ $flight->destination->code }} - {{ $flight->destination->name }}, {{ $flight->destination->city->name }}</h4>
+            </div>
         </div>
     </div>
+    @endforeach
 </div>

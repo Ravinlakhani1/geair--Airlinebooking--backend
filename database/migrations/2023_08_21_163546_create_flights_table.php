@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('flights', function (Blueprint $table) {
             $table->id();
             $table->string('flight_number');
+            $table->string('flight_type')->comment(json_encode(config('flight_type')));
             $table->foreignId('airline_id')->constrained();
             $table->foreignId('plane_id')->constrained();
             $table->foreignId('origin_id')->constrained('airports');

@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/default.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
+
+    @livewireStyles
 </head>
 
 <body>
@@ -160,7 +162,7 @@
     </footer>
     <!-- footer-area-end -->
 
-
+    @livewireScripts
     <!-- JS here -->
     <script src="{{ asset('assets/js/vendor/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
