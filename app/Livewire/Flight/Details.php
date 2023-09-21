@@ -12,7 +12,8 @@ class Details extends Component
 {
 
     public $flights = [];
-
+    public $filters = [];
+    public $searchData = [];
     public function render()
     {
         return view('livewire.flight.details');
@@ -21,6 +22,7 @@ class Details extends Component
     #[On('searchDetails')]
     public function searchDetails($data)
     {
+        $this->searchData = $data;
         $this->flights = Flight::query()
 
             // f is from city id
@@ -46,11 +48,11 @@ class Details extends Component
 
             // td is traviling date
             ->when(array_key_exists('td', $data), function ($query) use ($data) {
-                $query->when($data['td'] != 'null', function ($query) use ($data) {
+                $query->when($data['td'] != null, function ($query) use ($data) {
                     $query->whereDate('departure_time', $data['td']);
                 });
-                $query->when($data['td'] == 'null', function ($query) use ($data) {
-                    $query->whereDate('departure_time', now());
+                $query->when($data['td'] == null, function ($query) use ($data) {
+                    $query->whereDate('departure_time', '>=', now());
                 });
             })
 
@@ -59,10 +61,24 @@ class Details extends Component
                 $query->where('available_seats', '>=', $data['p']);
             })
 
+            ->when(array_key_exists('price', $this->filters), function ($query) use ($data) {
+                $query->when($this->filters['price'] != null, function ($query) use ($data) {
+                    $query->whereBetween('price', $this->filters['price']);
+                });
+            })
+
+            ->when(array_key_exists('airlines', $this->filters), function ($query) use ($data) {
+                $query->when(count($this->filters['airlines']) > 0  , function ($query) use ($data) {
+                    $query->whereIn('airline_id', $this->filters['airlines']);
+                });
+            })
+
+
             ->with(['airline', 'plane', 'origin', 'destination'])
             ->limit(5)
             ->latest()
             ->get();
+            // dd($this->flights);
     }
 
 
@@ -82,5 +98,12 @@ class Details extends Component
 
         // Output the result
         return $timeDifference;
+    }
+
+    #[On('set-filters')]
+    public function setFilters($filters)
+    {
+        $this->filters = $filters;
+        $this->searchDetails($this->searchData);
     }
 }

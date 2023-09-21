@@ -257,14 +257,14 @@ $(function () {
 =============================================*/
 $("#slider-range").slider({
 	range: true,
-	min: 300,
-	max: 5500,
-	values: [1000, 4500],
+	min: 1000,
+	max: 100000,
+	values: [1000, 100000],
 	slide: function (event, ui) {
-		$("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+		$("#amount").val("₹" + ui.values[0] + " - ₹" + ui.values[1]);
 	}
 });
-$("#amount").val("$" + $("#slider-range").slider("values", 0) + " - $" + $("#slider-range").slider("values", 1));
+$("#amount").val("₹" + $("#slider-range").slider("values", 0) + " - ₹" + $("#slider-range").slider("values", 1));
 
 
 

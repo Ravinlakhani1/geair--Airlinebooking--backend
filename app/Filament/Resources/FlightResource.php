@@ -34,7 +34,7 @@ class FlightResource extends Resource
                             Forms\Components\TextInput::make('flight_number')
                                 ->autofocus()
                                 ->required()
-                                ->unique(Flight::class, 'flight_number')
+                                ->unique(Flight::class, 'flight_number', fn ($record) => $record)
                                 ->placeholder(__('Flight Number')),
                             Forms\Components\Select::make('flight_type')
                                 ->options(config('flight_type'))
