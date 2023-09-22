@@ -14,6 +14,38 @@ class Details extends Component
     public $flights = [];
     public $filters = [];
     public $searchData = [];
+
+    public $from_id = '';
+    public $to_id = '';
+
+    public $type;
+    public $t_date;
+    public $p;
+
+
+    protected $queryString = [
+        'from_id' => ['except' => '', 'as' => 'f'],
+        'to_id' => ['except' => '', 'as' => 't'],
+        'type' => ['except' => '', 'as' => 'ty'],
+        't_date' => ['except' => '', 'as' => 'td'],
+        'p' => ['except' => '', 'as' => 'p']
+    ];
+
+
+    public function mount()
+    {
+        $data = [
+            'f' => $this->from_id,
+            't' => $this->to_id,
+            'ty' => $this->type ?? 'all',
+            'td' => $this->t_date,
+            'p' => $this->p ?? 1
+        ];
+
+        $this->searchDetails($data);
+     
+    }
+
     public function render()
     {
         return view('livewire.flight.details');
@@ -26,21 +58,21 @@ class Details extends Component
         $this->flights = Flight::query()
 
             // f is from city id
-            ->when(array_key_exists('f', $data), function ($query) use ($data) {
+            ->when(array_key_exists('f', $data) && $data['f'], function ($query) use ($data) {
                 $query->whereHas('origin', function ($query) use ($data) {
                     $query->where('city_id', $data['f']);
                 });
             })
 
             //t is to city id
-            ->when(array_key_exists('t', $data), function ($query) use ($data) {
+            ->when(array_key_exists('t', $data)  && $data['t'], function ($query) use ($data) {
                 $query->whereHas('destination', function ($query) use ($data) {
                     $query->where('city_id', $data['t']);
                 });
             })
 
             //ty is type
-            ->when(array_key_exists('ty', $data), function ($query) use ($data) {
+            ->when(array_key_exists('ty', $data)  && $data['ty'], function ($query) use ($data) {
                 $query->when(($data['ty'] != 'all' && $data['ty'] != ''), function ($query) use ($data) {
                     $query->where('flight_type', $data['ty']);
                 });
@@ -57,7 +89,7 @@ class Details extends Component
             })
 
             // p is passenger
-            ->when(array_key_exists('p', $data), function ($query) use ($data) {
+            ->when(array_key_exists('p', $data)  && $data['p'], function ($query) use ($data) {
                 $query->where('available_seats', '>=', $data['p']);
             })
 
@@ -68,8 +100,14 @@ class Details extends Component
             })
 
             ->when(array_key_exists('airlines', $this->filters), function ($query) use ($data) {
-                $query->when(count($this->filters['airlines']) > 0  , function ($query) use ($data) {
+                $query->when(count($this->filters['airlines']) > 0, function ($query) use ($data) {
                     $query->whereIn('airline_id', $this->filters['airlines']);
+                });
+            })
+
+            ->when(array_key_exists('time', $this->filters), function ($query) use ($data) {
+                $query->when(gettype($this->filters['time'])  == 'array' && $this->filters['time'] != null, function ($query) use ($data) {
+                    $query->whereRaw("TIME(departure_time) >= ? AND TIME(departure_time) <= ?", $this->filters['time']);
                 });
             })
 
@@ -78,7 +116,7 @@ class Details extends Component
             ->limit(5)
             ->latest()
             ->get();
-            // dd($this->flights);
+        // dd($this->flights);
     }
 
 
@@ -104,6 +142,9 @@ class Details extends Component
     public function setFilters($filters)
     {
         $this->filters = $filters;
+        if ($filters['time'] != null && $filters['time'] != '') {
+            $this->filters['time']  = explode('-', $filters['time']);
+        }
         $this->searchDetails($this->searchData);
     }
 }

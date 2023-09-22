@@ -4366,6 +4366,24 @@ label {
     color: #111827;
 }
 
+.departure-time.avtive {
+    background: #6a2e4d !important;
+    color: white !important;
+}
+.departure-time.avtive i{
+    color: white !important;
+}
+.departure-time.reset-btn
+{
+
+    background: transparent;
+    border: none;
+    display: flex;
+    margin-bottom: 10px;
+    margin-left: auto;
+    color: #6a2e4d !important;
+}
+
 @-webkit-keyframes loader-outter {
     0% {
         -webkit-transform: rotate(0deg);
