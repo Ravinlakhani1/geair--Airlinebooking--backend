@@ -101,7 +101,7 @@
                                                         <li>
                                                             <div class="form-grp economy">
                                                                 <label for="passenger">Passenger</label>
-                                                                <input type="text" id="passenger" wire:model='p' placeholder="1">
+                                                                <input type="text" id="passenger" wire:model.live='p' placeholder="1">
                                                             </div>
                                                         </li>
                                                     </ul>

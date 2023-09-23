@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
-                    <div class="breadcrumb-content text-center">
+                    <div class="text-center breadcrumb-content">
                         <h2 class="title">Booking List</h2>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">

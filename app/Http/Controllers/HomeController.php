@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Flight;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -14,5 +15,10 @@ class HomeController extends Controller
     public function booking()
     {
         return view('web.booking');
+    }
+
+    public function book($id)
+    {
+        return view('web.book', compact('id'));
     }
 }

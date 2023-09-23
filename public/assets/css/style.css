@@ -2940,7 +2940,7 @@ label {
     width: 37%;
 }
 
-.booking-details-wrap ul li:first-child {
+.booking-details-wrap ul li:last-child {
     width: 26%;
 }
 

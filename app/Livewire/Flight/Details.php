@@ -20,7 +20,7 @@ class Details extends Component
 
     public $type;
     public $t_date;
-    public $p;
+    public $p = 1;
 
 
     protected $queryString = [
@@ -43,7 +43,7 @@ class Details extends Component
         ];
 
         $this->searchDetails($data);
-     
+
     }
 
     public function render()
@@ -54,6 +54,7 @@ class Details extends Component
     #[On('searchDetails')]
     public function searchDetails($data)
     {
+        $this->p = $data['p'];
         $this->searchData = $data;
         $this->flights = Flight::query()
 

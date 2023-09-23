@@ -1,6 +1,7 @@
 <div>
 
     @foreach ($flights as $flight)
+    {{-- @dd($p) --}}
     <div class="booking-list-item">
 
         <div class="booking-list-item-inner">
@@ -20,7 +21,9 @@
                 </ul>
                 <div class="flight-price">
                     <h4 class="title">₹&nbsp;{{ number_format($flight->price) }}</h4>
-                    <a href="booking-details.html" class="btn">Select <i class="flaticon-flight-1"></i></a>
+                    <a href="{{ route('web.book', ['id' => $flight->id,'p'=>$p]) }}" class="btn">Select <i
+                            class="flaticon-flight-1"></i></a>
+
                 </div>
             </div>
             <div class="booking-list-bottom">
@@ -42,17 +45,20 @@
                 </ul>
             </div>
             <div class="flight-detail-right">
-                <h4 class="title">{{ $flight->origin->code }} - {{ $flight->origin->name }}, {{ $flight->origin->city->name }}</h4>
+                <h4 class="title">{{ $flight->origin->code }} - {{ $flight->origin->name }}, {{
+                    $flight->origin->city->name }}</h4>
                 <div class="flight-detail-info">
                     <img src="{{ $flight->airline->logo }}" alt="" width="66px">
                     <ul>
                         {{-- <li>Tpm Line</li> --}}
                         <li>Operated by {{ $flight->airline->name }}</li>
-                        <li>{{ $flight->flight_type }} | Flight {{ $flight->flight_number }} | {{ $flight->plane->name }}</li>
+                        <li>{{ $flight->flight_type }} | Flight {{ $flight->flight_number }} | {{ $flight->plane->name
+                            }}</li>
                         <li>Adult(s): 25KG luggage free</li>
                     </ul>
                 </div>
-                <h4 class="title title-two">{{ $flight->destination->code }} - {{ $flight->destination->name }}, {{ $flight->destination->city->name }}</h4>
+                <h4 class="title title-two">{{ $flight->destination->code }} - {{ $flight->destination->name }}, {{
+                    $flight->destination->city->name }}</h4>
             </div>
         </div>
     </div>

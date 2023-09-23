@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RazorpayController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,5 +34,10 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/', [HomeController::class, 'index'])->name('web.home');
 Route::get('/booking', [HomeController::class, 'booking'])->name('web.booking');
+Route::get('{id}/book', [HomeController::class, 'book'])->name('web.book');
+
+
+Route::get('pay', [RazorpayController::class, 'index']);
+Route::post('payment', [RazorpayController::class, 'payment'])->name('payment');
 
 require __DIR__ . '/auth.php';
