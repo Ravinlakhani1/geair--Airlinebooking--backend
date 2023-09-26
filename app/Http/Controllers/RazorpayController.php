@@ -2,44 +2,48 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payment;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Razorpay\Api\Api;
-use Session;
-use Redirect;
 
 
 class RazorpayController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return view('payment');
     }
 
     public function payment(Request $request)
     {
-        logger()->info('Payment');
-        $input = $request->all();
-        logger($input);
-        $api = new Api(env('RAZOR_KEY'), env('RAZOR_SECRET'));
-        $payment = $api->payment->fetch($input['razorpay_payment_id']);
-        
-        logger(json_encode($payment));
 
-        if(count($input)  && !empty($input['razorpay_payment_id']))
-        {
-            try
-            {
-                $response = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount'=>$payment['amount']));
-                logger()->info(json_encode($response));
+        try {
+            $api = new Api(env('RAZOR_KEY'), env('RAZOR_SECRET'));
+            $response = $api->payment->fetch($request->razorpay_payment_id)->toArray();
+
+            $paymen = Payment::where('payment_id', $response['id'])->first();
+            if (!$paymen) {
+                $paymen = new Payment();
             }
-            catch (\Exception $e)
-            {
-                return  $e->getMessage();
-                \Session::put('error',$e->getMessage());
-                return redirect()->back();
-            }
+            $paymen->payment_id = $response['id'];
+            $paymen->user_id = auth()->Id() ?? null;
+            $paymen->contact = $response['contact'] ?? null;
+            $paymen->email = $response['email'] ?? null;
+            $paymen->amount = $response['amount'];
+            $paymen->currency = $response['currency'];
+            $paymen->status = $response['status'];
+            $paymen->method = $response['method'];
+            $paymen->raw_response = json_encode($response);
+            $paymen->save();
+
+            Session::flash('success', 'This is a message!');
+            return redirect()->back();
+        } catch (Exception $e) {
+            Session::flash('error', $e->getMessage());
+            return redirect()->back();
+
         }
-
-        \Session::put('success', 'Payment successful');
-        return redirect()->back();
     }
 }

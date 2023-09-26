@@ -71,7 +71,7 @@ class FlightResource extends Resource
                             Flatpickr::make('departure_time')
                                 ->required()
                                 ->enableTime()
-                                ->dateFormat('d-m-y H:i:S')
+                                ->dateFormat('y-m-d H:i:S')
                                 ->placeholder(__('Departure Time')),
                             Flatpickr::make('arrival_time')
                                 ->required()
