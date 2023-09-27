@@ -258,7 +258,8 @@ label {
 }
 
 /* button style */
-.btn {
+.btn,
+.razorpay-payment-button {
     user-select: none;
     -moz-user-select: none;
     background: #ffa903 none repeat scroll 0 0;
@@ -3221,7 +3222,8 @@ label {
     margin-top: 20px;
 }
 
-.booking-sidebar .price-summary-detail .btn {
+.booking-sidebar .price-summary-detail .btn,
+.razorpay-payment-button {
     font-size: 16px;
     font-weight: 700;
     color: #fff;
@@ -4349,7 +4351,7 @@ label {
     color: #622243 !important;
 }
 
-.booking-list .booking-area{
+.booking-list .booking-area {
     z-index: 1;
     margin-top: -47px;
 }
@@ -4362,7 +4364,7 @@ label {
     color: #ffa903 !important;
 }
 
-.hover-text-gray-900:hover{
+.hover-text-gray-900:hover {
     color: #111827;
 }
 
@@ -4370,11 +4372,12 @@ label {
     background: #6a2e4d !important;
     color: white !important;
 }
-.departure-time.avtive i{
+
+.departure-time.avtive i {
     color: white !important;
 }
-.departure-time.reset-btn
-{
+
+.departure-time.reset-btn {
 
     background: transparent;
     border: none;
@@ -4382,6 +4385,9 @@ label {
     margin-bottom: 10px;
     margin-left: auto;
     color: #6a2e4d !important;
+}
+.razorpay-payment-button{
+    display: none;
 }
 
 @-webkit-keyframes loader-outter {

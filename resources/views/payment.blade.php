@@ -26,8 +26,8 @@
 
                     <form action="{{route('payment')}}" method="POST">
                         <script src="https://checkout.razorpay.com/v1/checkout.js" data-key="{{ env('RAZOR_KEY') }}"
-                            data-amount="1000" data-buttontext="Pay Amount" data-name="Techsolutionstuff"
-                            data-description="Payment" data-prefill.name="name" data-prefill.email="email"
+                            data-amount="{{ $total * 100 }}" data-buttontext="PAY NOW" data-name="Geair"
+                            data-description="booking" data-prefill.name="name" data-prefill.email="email"
                             data-theme.color="#ff7529">
                         </script>
                         <input type="hidden" name="_token" value="{!!csrf_token()!!}">
