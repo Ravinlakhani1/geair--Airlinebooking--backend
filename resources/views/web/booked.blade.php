@@ -123,7 +123,7 @@
 
                             <div class="col-12 ">
                                 <div class="mt-4 text-center">
-                                    <button class="btn btn-57112f">Download</button>
+                                    <a href="{{ route('web.ticket',$ticket->token) }}" class="btn btn-57112f">Download</a>
                                 </div>
                             </div>
 

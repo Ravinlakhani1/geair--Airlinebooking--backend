@@ -41,4 +41,7 @@ Route::get('booked/{token}', [HomeController::class, 'booked'])->name('web.booke
 Route::get('pay', [RazorpayController::class, 'index']);
 Route::post('payment', [RazorpayController::class, 'payment'])->name('payment');
 
+Route::get('ticket/{id}', [HomeController::class, 'ticket'])->name('web.ticket');
+
+
 require __DIR__ . '/auth.php';
