@@ -50,6 +50,7 @@ class RazorpayController extends Controller
             $ticket->sub_total = $request->sub_total;
             $ticket->text = $request->text;
             $ticket->total = $request->total;
+            $ticket->token = bin2hex(random_bytes(16));
             $ticket->save();
 
             foreach ($request->first_name as $key => $value) {
@@ -61,8 +62,7 @@ class RazorpayController extends Controller
                 $new->save();
             }
 
-            Session::flash('success', 'This is a message!');
-            return redirect()->back();
+            return redirect()->route('web.booked', ['token' => $ticket->token]);
         } catch (Exception $e) {
             dd($e->getMessage());
             Session::flash('error', $e->getMessage());

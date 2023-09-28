@@ -4389,6 +4389,15 @@ label {
 .razorpay-payment-button{
     display: none;
 }
+.btn-57112f{
+    background: #57112f;
+    border-radius: 0px;
+    color: white;
+    text-transform: uppercase;
+}
+.border-2b-622243{
+    border-bottom:2px solid #622243;
+}
 
 @-webkit-keyframes loader-outter {
     0% {

@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RazorpayController;
 use Illuminate\Support\Facades\Route;
+use Whoops\Run;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +36,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/', [HomeController::class, 'index'])->name('web.home');
 Route::get('/booking', [HomeController::class, 'booking'])->name('web.booking');
 Route::get('{id}/book', [HomeController::class, 'book'])->name('web.book');
-
+Route::get('booked/{token}', [HomeController::class, 'booked'])->name('web.booked');
 
 Route::get('pay', [RazorpayController::class, 'index']);
 Route::post('payment', [RazorpayController::class, 'payment'])->name('payment');

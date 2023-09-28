@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Flight;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -29,5 +30,13 @@ class HomeController extends Controller
 
 
         return view('web.book', compact('flight','pessenger_count','booking_total','tax_total','sub_total','total'));
+    }
+
+
+    public function booked($token){
+        $ticket = Ticket::where('token',$token)->with('flight')->first();
+
+        return view('web.booked',compact('ticket'));
+
     }
 }
