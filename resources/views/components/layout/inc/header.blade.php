@@ -31,34 +31,43 @@
                         <nav class="menu-nav">
                             <div class="logo"><a href="index.html"><img src="{{ asset('assets/img/logo/logo.png') }}"
                                         alt=""></a></div>
-                            <div class="navbar-wrap main-menu d-none d-lg-flex">
-                                <ul class="navigation">
-                                    <li class="{{ Route::is('web.home') ? 'active':'' }}"><a
-                                            href="{{ route('web.home') }}">Home</a></li>
-                                    <li class="{{ Route::is('web.booking') ? 'active':'' }}"><a
-                                            href="{{ route('web.booking') }}">Book Now</a></li>
-                                    <li><a href="about.html">About</a></li>
-                                    <li class="menu-item-has-children"><a href="#">Blog</a>
-                                        <ul class="submenu">
-                                            <li><a href="blog.html">Our Blog</a></li>
-                                            <li><a href="blog-details.html">Blog Details</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="contact.html">Contact</a></li>
-                                </ul>
-                            </div>
+                            @guest
+                                <div class="navbar-wrap main-menu d-none d-lg-flex">
+                                    <ul class="navigation"><li><a href=""></a></li></ul>
+                                </div>
+                            @endguest
+                            @auth
+
+                                <div class="navbar-wrap main-menu d-none d-lg-flex">
+                                    <ul class="navigation">
+                                        <li class="{{ Route::is('web.home') ? 'active' : '' }}"><a
+                                                href="{{ route('web.home') }}">Home</a></li>
+                                        <li class="{{ Route::is('web.booking') ? 'active' : '' }}"><a
+                                                href="{{ route('web.booking') }}">Book Now</a></li>
+                                        <li><a href="about.html">About</a></li>
+                                        <li class="menu-item-has-children"><a href="#">Blog</a>
+                                            <ul class="submenu">
+                                                <li><a href="blog.html">Our Blog</a></li>
+                                                <li><a href="blog-details.html">Blog Details</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="contact.html">Contact</a></li>
+                                    </ul>
+                                </div>
+                            @endauth
+
                             <div class="header-action d-none d-md-block">
                                 <ul>
                                     {{-- <li class="country"><a href="#">usd <img
                                                 src="{{asset('assets/img/icon/united-states.png')}}" alt=""></a></li>
                                     <li class="question"><a href="contact.html">?</a></li> --}}
                                     @guest
-                                    <li class="header-btn"><a href="contact.html" class="btn">Register</a></li>
-                                    <li class="header-btn sign-in"><a href="contact.html" class="btn">Sign In</a>
-                                    </li>
+                                        <li class="header-btn {{ Route::is('register') ? 'sign-in':''  }}"><a href="{{ route('register') }}" class="btn">Register</a></li>
+                                        <li class="header-btn {{ Route::is('login') ? 'sign-in':''  }}"><a href="{{ route('login') }}" class="btn">Sign In</a>
+                                        </li>
                                     @endguest
                                     @auth
-                                    <li class="header-btn"><a href="#" class="btn">Profile</a></li>
+                                        <li class="header-btn"><a href="#" class="btn">Profile</a></li>
                                     @endauth
                                 </ul>
                             </div>
@@ -69,7 +78,8 @@
                         <nav class="menu-box">
                             <div class="close-btn"><i class="fa-solid fa-xmark"></i></div>
                             <div class="nav-logo"><a href="index.html"><img
-                                        src="{{ asset('assets/img/logo/logo_02.png') }}" alt="" title=""></a>
+                                        src="{{ asset('assets/img/logo/logo_02.png') }}" alt=""
+                                        title=""></a>
                             </div>
                             <div class="menu-outer">
                                 <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->
